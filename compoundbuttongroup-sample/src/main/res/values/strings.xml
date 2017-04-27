@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">CompoundButtonGroupSample</string>
+
+    <string name="open_drawer">Open Drawer</string>
+    <string name="close_drawer">Close Drawer</string>
+
+
+    <array name="menu_titles">
+        <item>Check Boxes</item>
+        <item>Check Boxes (Label Last)</item>
+        <item>Check Boxes Grid (2 cols)</item>
+        <item>Check Boxes Grid (3 cols)</item>
+        <item>Radio</item>
+        <item>Radio (Label Last)</item>
+        <item>Radio Grid (2 cols)</item>
+        <item>Radio Grid (3 cols)</item>
+    </array>
+
+    <array name="planets">
+        <item>Mercury</item>
+        <item>Pluton</item>
+        <item>Saturn</item>
+        <item>Earth</item>
+        <item>Venus</item>
+        <item>Neptune</item>
+        <item>Uranus</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+    </array>
+
+</resources>

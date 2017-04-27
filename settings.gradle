@@ -1,0 +1,3 @@
+include ':compoundbuttongroup-sample'
+include ':compoundbuttongroup'
+project(':compoundbuttongroup').projectDir = new File(settingsDir, 'compoundbuttongroup')
