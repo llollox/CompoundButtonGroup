@@ -72,19 +72,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
         setTitle(mMenuTitles[0]);
-        showFragment(new CheckBoxesFragment());
+        showFragment(CompoundButtonGroupFragment.newInstance(R.layout.check_boxes_fragment));
     }
 
     private Fragment getFragmentByPosition(int position) {
         switch (position) {
-            case 0:     return new CheckBoxesFragment();
-            case 1:     return new CheckBoxesLabelLastFragment();
-            case 2:     return new CheckBoxesGrid2ColsFragment();
-            case 3:     return new CheckBoxesGrid3ColsFragment();
-            case 4:     return new RadioFragment();
-            case 5:     return new RadioLabelLastFragment();
-            case 6:     return new RadioGrid2ColsFragment();
-            case 7:     return new RadioGrid3ColsFragment();
+            case 0:     return CompoundButtonGroupFragment.newInstance(R.layout.check_boxes_fragment);
+            case 1:     return CompoundButtonGroupFragment.newInstance(R.layout.check_boxes_grid_2cols_fragment);
+            case 2:     return CompoundButtonGroupFragment.newInstance(R.layout.check_boxes_grid_3cols_fragment);
+            case 3:     return CompoundButtonGroupFragment.newInstance(R.layout.check_boxes_label_last_fragment);
+            case 4:     return CompoundButtonGroupFragment.newInstance(R.layout.radio_fragment);
+            case 5:     return CompoundButtonGroupFragment.newInstance(R.layout.radio_label_last_fragment);
+            case 6:     return CompoundButtonGroupFragment.newInstance(R.layout.radio_grid_2cols_fragment);
+            case 7:     return CompoundButtonGroupFragment.newInstance(R.layout.radio_grid_3cols_fragment);
             default:    throw new RuntimeException("Unsupported position");
         }
     }

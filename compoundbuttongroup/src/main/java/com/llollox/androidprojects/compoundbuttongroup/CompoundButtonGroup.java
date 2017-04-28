@@ -18,16 +18,16 @@ import java.util.List;
 
 public class CompoundButtonGroup extends LinearLayout implements FullWidthCompoundButton.Listener {
 
-    public interface Listener {
-        void onButtonClicked(int position);
+    public interface OnButtonSelectedListener {
+        void onButtonSelected(int position, boolean isChecked);
     }
 
     private FullWidthCompoundButton.CompoundType compoundType       = FullWidthCompoundButton.CompoundType.CHECK_BOX;
-    private FullWidthCompoundButton.LabelOrder labelOrder   = FullWidthCompoundButton.LabelOrder.FIRST;
-    private ArrayList<FullWidthCompoundButton> buttons      = new ArrayList<>();
-    private int numCols                             = 1;
+    private FullWidthCompoundButton.LabelOrder labelOrder           = FullWidthCompoundButton.LabelOrder.FIRST;
+    private ArrayList<FullWidthCompoundButton> buttons              = new ArrayList<>();
+    private int numCols                                             = 1;
 
-    private Listener listener;
+    private OnButtonSelectedListener onButtonSelectedListener;
     private Context context;
 
     public CompoundButtonGroup(Context context, @Nullable AttributeSet attrs) {
@@ -78,8 +78,8 @@ public class CompoundButtonGroup extends LinearLayout implements FullWidthCompou
         setEntries(entries.toArray(new CharSequence[entries.size()]));
     }
 
-    public void setListener(Listener listener) {
-        this.listener = listener;
+    public void setOnButtonSelectedListener(OnButtonSelectedListener onButtonSelectedListener) {
+        this.onButtonSelectedListener = onButtonSelectedListener;
     }
 
     private void setEntries(CharSequence[] entries) {
@@ -137,8 +137,10 @@ public class CompoundButtonGroup extends LinearLayout implements FullWidthCompou
             }
         }
 
-        if (listener != null) {
-            listener.onButtonClicked(buttons.indexOf(v));
+        if (onButtonSelectedListener != null) {
+            boolean isChecked   = !((FullWidthCompoundButton) v).isChecked();
+            int position        = buttons.indexOf(v);
+            onButtonSelectedListener.onButtonSelected(position, isChecked);
         }
     }
 
