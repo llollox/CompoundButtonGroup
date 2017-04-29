@@ -5,14 +5,16 @@
     <string name="close_drawer">Close Drawer</string>
 
     <string name="get_value">Get value</string>
+    <string name="checked">Checked</string>
+    <string name="unchecked">Unchecked</string>
 
     <array name="menu_titles">
         <item>Check Boxes</item>
-        <item>Check Boxes (Label Last)</item>
+        <item>Check Boxes (Label After)</item>
         <item>Check Boxes Grid (2 cols)</item>
         <item>Check Boxes Grid (3 cols)</item>
         <item>Radio</item>
-        <item>Radio (Label Last)</item>
+        <item>Radio (Label After)</item>
         <item>Radio Grid (2 cols)</item>
         <item>Radio Grid (3 cols)</item>
     </array>

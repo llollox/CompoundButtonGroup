@@ -3,12 +3,12 @@
 
     <declare-styleable name="CompoundButtonGroup">
         <attr name="entries" format="reference" />
-        <attr name="num_cols" format="integer" />
-        <attr name="label_order" format="enum">
-            <enum name="first" value="0" />
-            <enum name="last" value="1" />
+        <attr name="numCols" format="integer" />
+        <attr name="labelOrder" format="enum">
+            <enum name="before" value="0" />
+            <enum name="after" value="1" />
         </attr>
-        <attr name="compound_type" format="enum">
+        <attr name="compoundType" format="enum">
             <enum name="check_box" value="0" />
             <enum name="radio" value="1" />
         </attr>

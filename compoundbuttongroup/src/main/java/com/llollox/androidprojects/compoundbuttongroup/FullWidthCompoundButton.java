@@ -25,7 +25,7 @@ public class FullWidthCompoundButton extends LinearLayout {
     }
 
     public enum LabelOrder {
-        FIRST, LAST
+        BEFORE, AFTER
     }
 
     public enum CompoundType {
@@ -34,7 +34,7 @@ public class FullWidthCompoundButton extends LinearLayout {
 
     private TextView textView;
     private CompoundButton button;
-    private LabelOrder labelOrder   = LabelOrder.FIRST;
+    private LabelOrder labelOrder   = LabelOrder.BEFORE;
     private CompoundType viewType   = CompoundType.CHECK_BOX;
     private Context context;
     private Listener listener;
@@ -117,7 +117,7 @@ public class FullWidthCompoundButton extends LinearLayout {
 
     private void addOrderedViews(LabelOrder labelOrder) {
         switch (labelOrder) {
-            case FIRST:
+            case BEFORE:
                 LinearLayout.LayoutParams params = new LayoutParams(
                         LayoutParams.MATCH_PARENT,
                         LayoutParams.MATCH_PARENT);
@@ -128,12 +128,11 @@ public class FullWidthCompoundButton extends LinearLayout {
                 addView(button);
                 break;
 
-            case LAST:
+            case AFTER:
                 addView(button);
                 LinearLayout.LayoutParams paramss = new LayoutParams(
                         LayoutParams.WRAP_CONTENT,
                         LayoutParams.WRAP_CONTENT);
-//                textView.setGravity(Gravity.CENTER_VERTICAL);
                 textView.setLayoutParams(paramss);
                 addView(textView);
                 break;

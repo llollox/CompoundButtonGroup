@@ -38,14 +38,12 @@ public class MainActivity extends AppCompatActivity {
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-//                getActionBar().setTitle(mTitle);
                 invalidateOptionsMenu();
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-//                getActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu();
             }
         };
@@ -78,11 +76,11 @@ public class MainActivity extends AppCompatActivity {
     private Fragment getFragmentByPosition(int position) {
         switch (position) {
             case 0:     return CompoundButtonGroupFragment.newInstance(R.layout.check_boxes_fragment);
-            case 1:     return CompoundButtonGroupFragment.newInstance(R.layout.check_boxes_label_last_fragment);
+            case 1:     return CompoundButtonGroupFragment.newInstance(R.layout.check_boxes_label_after_fragment);
             case 2:     return CompoundButtonGroupFragment.newInstance(R.layout.check_boxes_grid_2cols_fragment);
             case 3:     return CompoundButtonGroupFragment.newInstance(R.layout.check_boxes_grid_3cols_fragment);
             case 4:     return CompoundButtonGroupFragment.newInstance(R.layout.radio_fragment);
-            case 5:     return CompoundButtonGroupFragment.newInstance(R.layout.radio_label_last_fragment);
+            case 5:     return CompoundButtonGroupFragment.newInstance(R.layout.radio_label_after_fragment);
             case 6:     return CompoundButtonGroupFragment.newInstance(R.layout.radio_grid_2cols_fragment);
             case 7:     return CompoundButtonGroupFragment.newInstance(R.layout.radio_grid_3cols_fragment);
             default:    throw new RuntimeException("Unsupported position");

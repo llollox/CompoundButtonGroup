@@ -24,7 +24,7 @@ public class CompoundButtonGroup extends ScrollView implements FullWidthCompound
     }
 
     private FullWidthCompoundButton.CompoundType compoundType       = FullWidthCompoundButton.CompoundType.CHECK_BOX;
-    private FullWidthCompoundButton.LabelOrder labelOrder           = FullWidthCompoundButton.LabelOrder.FIRST;
+    private FullWidthCompoundButton.LabelOrder labelOrder           = FullWidthCompoundButton.LabelOrder.BEFORE;
     private ArrayList<FullWidthCompoundButton> buttons              = new ArrayList<>();
     private int numCols                                             = 1;
 
@@ -49,13 +49,13 @@ public class CompoundButtonGroup extends ScrollView implements FullWidthCompound
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CompoundButtonGroup, 0, 0);
         try {
-            int compoundTypeInt = a.getInteger(R.styleable.CompoundButtonGroup_compound_type, 0);
+            int compoundTypeInt = a.getInteger(R.styleable.CompoundButtonGroup_compoundType, 0);
             this.compoundType = getCompoundType(compoundTypeInt);
 
-            int labelOrderInt = a.getInteger(R.styleable.CompoundButtonGroup_label_order, 0);
+            int labelOrderInt = a.getInteger(R.styleable.CompoundButtonGroup_labelOrder, 0);
             this.labelOrder = getLabelOrder(labelOrderInt);
 
-            numCols = a.getInteger(R.styleable.CompoundButtonGroup_num_cols, 1);
+            numCols = a.getInteger(R.styleable.CompoundButtonGroup_numCols, 1);
 
             CharSequence[] entries = a.getTextArray(R.styleable.CompoundButtonGroup_entries);
             if (entries != null) {
@@ -79,8 +79,8 @@ public class CompoundButtonGroup extends ScrollView implements FullWidthCompound
 
     private FullWidthCompoundButton.LabelOrder getLabelOrder (int labelOrder) {
         switch (labelOrder) {
-            case 0: return FullWidthCompoundButton.LabelOrder.FIRST;
-            case 1: return FullWidthCompoundButton.LabelOrder.LAST;
+            case 0: return FullWidthCompoundButton.LabelOrder.BEFORE;
+            case 1: return FullWidthCompoundButton.LabelOrder.AFTER;
             default: throw new RuntimeException("Unrecognized label order");
         }
     }

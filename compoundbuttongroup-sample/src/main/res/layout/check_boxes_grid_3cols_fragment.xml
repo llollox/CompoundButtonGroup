@@ -5,6 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:entries="@array/planets"
-    app:compound_type="check_box"
-    app:num_cols="3"
-    app:label_order="last"/>
+    app:compoundType="check_box"
+    app:numCols="3"
+    app:labelOrder="after"/>
