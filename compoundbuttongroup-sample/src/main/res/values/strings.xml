@@ -4,6 +4,7 @@
     <string name="open_drawer">Open Drawer</string>
     <string name="close_drawer">Close Drawer</string>
 
+    <string name="get_value">Get value</string>
 
     <array name="menu_titles">
         <item>Check Boxes</item>
@@ -26,6 +27,7 @@
         <item>Uranus</item>
         <item>Mars</item>
         <item>Jupiter</item>
+        <item>Sun</item>
     </array>
 
 </resources>

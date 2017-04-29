@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by rigatol on 26/04/2017.
  */
 
-public class CompoundButtonGroup extends LinearLayout implements FullWidthCompoundButton.Listener {
+public class CompoundButtonGroup extends ScrollView implements FullWidthCompoundButton.Listener {
 
     public interface OnButtonSelectedListener {
         void onButtonSelected(int position, boolean isChecked);
@@ -30,12 +31,20 @@ public class CompoundButtonGroup extends LinearLayout implements FullWidthCompou
     private OnButtonSelectedListener onButtonSelectedListener;
     private Context context;
 
+    private LinearLayout containerLayout;
+
     public CompoundButtonGroup(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
 
-        setOrientation(VERTICAL);
-        setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        containerLayout = new LinearLayout(context);
+        containerLayout.setOrientation(LinearLayout.VERTICAL);
+        containerLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CompoundButtonGroup, 0, 0);
@@ -56,6 +65,8 @@ public class CompoundButtonGroup extends LinearLayout implements FullWidthCompou
         finally {
             a.recycle();
         }
+
+        addView(containerLayout);
     }
 
     private FullWidthCompoundButton.CompoundType getCompoundType (int compoundTypeInt) {
@@ -94,8 +105,8 @@ public class CompoundButtonGroup extends LinearLayout implements FullWidthCompou
                 container = new LinearLayout(context);
                 container.setLayoutParams(new LinearLayoutCompat.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                container.setOrientation(HORIZONTAL);
-                addView(container);
+                container.setOrientation(LinearLayout.HORIZONTAL);
+                containerLayout.addView(container);
             }
 
             String entry = entries[i].toString();

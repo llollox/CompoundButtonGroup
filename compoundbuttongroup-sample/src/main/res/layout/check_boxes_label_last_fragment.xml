@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.llollox.androidprojects.compoundbuttongroup.CompoundButtonGroup
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <com.llollox.androidprojects.compoundbuttongroup.CompoundButtonGroup
-        android:id="@+id/compound_group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:entries="@array/planets"
-        app:compound_type="check_box"
-        app:label_order="last"/>
-
-</LinearLayout>
+    android:layout_height="wrap_content"
+    app:entries="@array/planets"
+    app:compound_type="check_box"
+    app:label_order="last"/>
