@@ -41,11 +41,8 @@ public class CompoundButtonGroup extends ScrollView implements FullWidthCompound
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        containerLayout = new LinearLayout(context);
-        containerLayout.setOrientation(LinearLayout.VERTICAL);
-        containerLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+        removeAllViews();
+        initializeButtonsContainer();
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CompoundButtonGroup, 0, 0);
         try {
@@ -67,6 +64,14 @@ public class CompoundButtonGroup extends ScrollView implements FullWidthCompound
         }
 
         addView(containerLayout);
+    }
+
+    private void initializeButtonsContainer() {
+        containerLayout = new LinearLayout(context);
+        containerLayout.setOrientation(LinearLayout.VERTICAL);
+        containerLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
     private FullWidthCompoundButton.CompoundType getCompoundType (int compoundTypeInt) {
@@ -93,8 +98,9 @@ public class CompoundButtonGroup extends ScrollView implements FullWidthCompound
         this.onButtonSelectedListener = onButtonSelectedListener;
     }
 
-    private void setEntries(CharSequence[] entries) {
+    public void setEntries(CharSequence[] entries) {
         removeAllViews();
+        initializeButtonsContainer();
         buttons.clear();
 
         LinearLayout container = null;
@@ -155,7 +161,17 @@ public class CompoundButtonGroup extends ScrollView implements FullWidthCompound
         }
     }
 
-    public List<Integer> getSelectedPositions() {
+    public void setCheckedPositions(List<Integer> checkedPositions) {
+        for (int i=0; i<buttons.size(); i++) {
+            buttons.get(i).setChecked(checkedPositions.contains(i));
+        }
+    }
+
+    public void setCheckedPosition(final int position) {
+        setCheckedPositions(new ArrayList<Integer>(){{add(position);}});
+    }
+
+    public List<Integer> getCheckedPositions() {
         ArrayList<Integer> checked = new ArrayList<>();
         for (int i=0; i<buttons.size(); i++) {
             FullWidthCompoundButton button = buttons.get(i);

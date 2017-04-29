@@ -81,7 +81,48 @@ dependencies {
     app:labelOrder="after"/>
 ```
 
+## Getters and Setters
 
+* `void setEntries(List<String> entries)` Set the entries for the compound button group.
+
+```java
+List<String> entries = new ArrayList<String>(){{add("Mars"); add("Mercury"); add("Earth");}};
+compoundButtonGroup.setEntries(entries);
+```
+
+* `List<Integer> getCheckedPositions()` Returns the current checked positions
+
+```java
+List<Integer> positions = compoundButtonGroup.getCheckedPositions();
+```
+
+* `void setCheckedPosition(int position)` Checks the button at the position passed as argument. Typically to be used with `radio` buttons.
+
+```java
+int position = 3;
+compoundButtonGroup.setCheckedPosition(position);
+```
+
+* `void setCheckedPositions(List<Integer> positions)` Checks all the buttons at the positions passed as argument. Typically to be used with `check box` buttons.
+
+```java
+List<Integer> positions = new ArrayList<Integer>(){{add(2); add(4);}};
+compoundButtonGroup.setCheckedPositions(positions);
+```
+
+
+## Listeners
+
+##### OnButtonSelectedListener
+
+```java
+compoundButtonGroup.setOnButtonSelectedListener(new CompoundButtonGroup.OnButtonSelectedListener() {
+    @Override
+    public void onButtonSelected(int position, boolean isChecked) {
+        // Your code
+    }
+});
+```
 
 ## Customization
 

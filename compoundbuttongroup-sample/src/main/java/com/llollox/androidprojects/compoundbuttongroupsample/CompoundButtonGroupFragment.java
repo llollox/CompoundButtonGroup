@@ -76,7 +76,7 @@ public class CompoundButtonGroupFragment extends Fragment {
             public void onClick(View v) {
                 String checked = getString(R.string.checked);
                 ArrayList<String> checkedPlanets = new ArrayList<>();
-                for (int position : compoundButtonGroup.getSelectedPositions()) {
+                for (int position : compoundButtonGroup.getCheckedPositions()) {
                     checkedPlanets.add(planets[position]);
                 }
                 Toast.makeText(getActivity(),
@@ -86,6 +86,13 @@ public class CompoundButtonGroupFragment extends Fragment {
         });
 
         relativeLayout.addView(compoundButtonGroup, 0);
+
+
+//        ArrayList<Integer> checkedPositions = new ArrayList<Integer>(){{add(2); add(4);}};
+//        compoundButtonGroup.setCheckedPositions(checkedPositions);
+
+        CharSequence[] entries = {"Mars", "Earth", "Mercury"};
+        compoundButtonGroup.setEntries(entries);
 
         return relativeLayout;
     }
