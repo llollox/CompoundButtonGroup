@@ -2,8 +2,6 @@ package com.llollox.androidprojects.compoundbuttongroup;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +65,7 @@ public class CompoundButtonGroup extends ScrollView {
     // CONSTRUCTOR
     // *********************************************************
 
-    public CompoundButtonGroup(Context context, @Nullable AttributeSet attrs) {
+    public CompoundButtonGroup(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
 
@@ -211,7 +209,7 @@ public class CompoundButtonGroup extends ScrollView {
 
             if (i % numCols == 0) {
                 colContainer = new LinearLayout(context);
-                colContainer.setLayoutParams(new LinearLayoutCompat.LayoutParams(
+                colContainer.setLayoutParams(new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 colContainer.setOrientation(LinearLayout.HORIZONTAL);
                 containerLayout.addView(colContainer);

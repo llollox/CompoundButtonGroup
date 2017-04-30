@@ -2,7 +2,6 @@ package com.llollox.androidprojects.compoundbuttongroup;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -36,7 +35,7 @@ class FullWidthCompoundButton extends LinearLayout {
         init(context, null);
     }
 
-    public FullWidthCompoundButton(Context context, @Nullable AttributeSet attrs) {
+    public FullWidthCompoundButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
