@@ -17,7 +17,7 @@ import java.util.List;
  * Created by rigatol on 26/04/2017.
  */
 
-public class CompoundButtonGroup extends ScrollView implements FullWidthCompoundButton.Listener {
+public class CompoundButtonGroup extends ScrollView {
 
     // *********************************************************
     // LISTENERS
@@ -52,6 +52,7 @@ public class CompoundButtonGroup extends ScrollView implements FullWidthCompound
     private LabelOrder labelOrder                                   = LabelOrder.BEFORE;
     private ArrayList<FullWidthCompoundButton> buttons              = new ArrayList<>();
     private int numCols                                             = 1;
+    private FullWidthCompoundButtonListener fullWidthCompoundButtonListener = new FullWidthCompoundButtonListener();
 
     private CharSequence[] entries;
     private OnButtonSelectedListener onButtonSelectedListener;
@@ -242,7 +243,7 @@ public class CompoundButtonGroup extends ScrollView implements FullWidthCompound
         fullWidthButton.setText(entry);
         fullWidthButton.setCompoundType(compoundType);
         fullWidthButton.setLabelOrder(labelOrder);
-        fullWidthButton.setListener(this);
+        fullWidthButton.setListener(fullWidthCompoundButtonListener);
         return fullWidthButton;
     }
 
@@ -263,18 +264,28 @@ public class CompoundButtonGroup extends ScrollView implements FullWidthCompound
     }
 
 
-    @Override
-    public void onButtonClicked(View v) {
-        if (compoundType == CompoundType.RADIO) {
-            for (FullWidthCompoundButton button : buttons) {
-                button.setChecked(false);
-            }
-        }
+    // *********************************************************
+    // INNER CLASSES
+    // *********************************************************
 
-        if (onButtonSelectedListener != null) {
-            boolean isChecked = !((FullWidthCompoundButton) v).isChecked();
-            int position = buttons.indexOf(v);
-            onButtonSelectedListener.onButtonSelected(position, isChecked);
+    // This inner class is needed to avoid that the onButtonClicked method (implemented from the
+    // interface) is PUBLIC. Therefore it cannot be overrode.
+
+    private class FullWidthCompoundButtonListener implements FullWidthCompoundButton.Listener {
+
+        @Override
+        public void onButtonClicked(View v) {
+            if (compoundType == CompoundType.RADIO) {
+                for (FullWidthCompoundButton button : buttons) {
+                    button.setChecked(false);
+                }
+            }
+
+            if (onButtonSelectedListener != null) {
+                boolean isChecked = !((FullWidthCompoundButton) v).isChecked();
+                int position = buttons.indexOf(v);
+                onButtonSelectedListener.onButtonSelected(position, isChecked);
+            }
         }
     }
 }
