@@ -11,16 +11,16 @@ Add Gradle dependency:
 
 ```groovy
 dependencies {
-    compile 'us.belka:androidtoggleswitch:1.2.2'
+  compile 'com.llollox.androidprojects:compoundbuttongroup:1.0.0'
 }
 ```
 
 #### Maven
 ```xml
 <dependency>
-  <groupId>us.belka</groupId>
-  <artifactId>androidtoggleswitch</artifactId>
-  <version>1.2.2</version>
+  <groupId>com.llollox.androidprojects</groupId>
+  <artifactId>compoundbuttongroup</artifactId>
+  <version>1.0.0</version>
   <type>pom</type>
 </dependency>
 ```
