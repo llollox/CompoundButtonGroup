@@ -2,6 +2,7 @@
 
 ![Alt text](https://img.shields.io/badge/license-MIT-green.svg?style=flat)
 [![API](https://img.shields.io/badge/API-10%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=10)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Compound%20Button%20Group-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/5669)
 
 An Android library to easily implement compound buttons
 
