@@ -11,7 +11,7 @@ Add Gradle dependency:
 
 ```groovy
 dependencies {
-  compile 'com.llollox.androidprojects:compoundbuttongroup:1.0.0'
+  compile 'com.llollox.androidprojects:compoundbuttongroup:1.0.1'
 }
 ```
 
@@ -20,7 +20,7 @@ dependencies {
 <dependency>
   <groupId>com.llollox.androidprojects</groupId>
   <artifactId>compoundbuttongroup</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <type>pom</type>
 </dependency>
 ```
