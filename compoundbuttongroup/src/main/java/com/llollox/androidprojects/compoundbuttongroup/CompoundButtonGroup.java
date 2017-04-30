@@ -19,19 +19,52 @@ import java.util.List;
 
 public class CompoundButtonGroup extends ScrollView implements FullWidthCompoundButton.Listener {
 
+    // *********************************************************
+    // LISTENERS
+    // *********************************************************
+
     public interface OnButtonSelectedListener {
         void onButtonSelected(int position, boolean isChecked);
     }
 
-    private FullWidthCompoundButton.CompoundType compoundType       = FullWidthCompoundButton.CompoundType.CHECK_BOX;
-    private FullWidthCompoundButton.LabelOrder labelOrder           = FullWidthCompoundButton.LabelOrder.BEFORE;
+
+
+    // *********************************************************
+    // ENUMS
+    // *********************************************************
+
+
+    public enum CompoundType {
+        CHECK_BOX, RADIO
+    }
+
+    public enum LabelOrder {
+        BEFORE, AFTER
+    }
+
+
+
+    // *********************************************************
+    // INSTANCE VARIABLES
+    // *********************************************************
+
+    private CompoundType compoundType                               = CompoundType.CHECK_BOX;
+    private LabelOrder labelOrder                                   = LabelOrder.BEFORE;
     private ArrayList<FullWidthCompoundButton> buttons              = new ArrayList<>();
     private int numCols                                             = 1;
 
+    private CharSequence[] entries;
     private OnButtonSelectedListener onButtonSelectedListener;
     private Context context;
-
     private LinearLayout containerLayout;
+
+
+
+
+
+    // *********************************************************
+    // CONSTRUCTOR
+    // *********************************************************
 
     public CompoundButtonGroup(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -41,8 +74,11 @@ public class CompoundButtonGroup extends ScrollView implements FullWidthCompound
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        removeAllViews();
-        initializeButtonsContainer();
+        containerLayout = new LinearLayout(context);
+        containerLayout.setOrientation(LinearLayout.VERTICAL);
+        containerLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CompoundButtonGroup, 0, 0);
         try {
@@ -54,9 +90,9 @@ public class CompoundButtonGroup extends ScrollView implements FullWidthCompound
 
             numCols = a.getInteger(R.styleable.CompoundButtonGroup_numCols, 1);
 
-            CharSequence[] entries = a.getTextArray(R.styleable.CompoundButtonGroup_entries);
+            this.entries = a.getTextArray(R.styleable.CompoundButtonGroup_entries);
             if (entries != null) {
-                setEntries(entries);
+                reDraw();
             }
         }
         finally {
@@ -66,58 +102,123 @@ public class CompoundButtonGroup extends ScrollView implements FullWidthCompound
         addView(containerLayout);
     }
 
-    private void initializeButtonsContainer() {
-        containerLayout = new LinearLayout(context);
-        containerLayout.setOrientation(LinearLayout.VERTICAL);
-        containerLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+
+
+
+
+    // *********************************************************
+    // PUBLIC GETTERS AND SETTERS
+    // *********************************************************
+
+    public List<Integer> getCheckedPositions() {
+        ArrayList<Integer> checked = new ArrayList<>();
+        for (int i=0; i<buttons.size(); i++) {
+            FullWidthCompoundButton button = buttons.get(i);
+            if (button.isChecked()) {
+                checked.add(i);
+            }
+        }
+        return checked;
     }
 
-    private FullWidthCompoundButton.CompoundType getCompoundType (int compoundTypeInt) {
-        switch (compoundTypeInt) {
-            case 0: return FullWidthCompoundButton.CompoundType.CHECK_BOX;
-            case 1: return FullWidthCompoundButton.CompoundType.RADIO;
-            default: throw new RuntimeException("Unrecognized view type");
+    public CompoundType getCompoundType() {
+        return compoundType;
+    }
+
+    public LabelOrder getLabelOrder() {
+        return labelOrder;
+    }
+
+    public int getNumCols() {
+        return numCols;
+    }
+
+
+    public void reDraw() {
+        containerLayout.removeAllViews();
+        buttons.clear();
+
+        if (numCols == 1) {
+            addEntriesInOneColumn(entries, containerLayout);
+        }
+        else if (numCols > 1) {
+            addEntriesInGrid(entries, containerLayout, numCols);
         }
     }
 
-    private FullWidthCompoundButton.LabelOrder getLabelOrder (int labelOrder) {
-        switch (labelOrder) {
-            case 0: return FullWidthCompoundButton.LabelOrder.BEFORE;
-            case 1: return FullWidthCompoundButton.LabelOrder.AFTER;
-            default: throw new RuntimeException("Unrecognized label order");
+    public void setCheckedPosition(final int position) {
+        setCheckedPositions(new ArrayList<Integer>(){{add(position);}});
+    }
+
+    public void setCheckedPositions(List<Integer> checkedPositions) {
+        for (int i=0; i<buttons.size(); i++) {
+            buttons.get(i).setChecked(checkedPositions.contains(i));
         }
+    }
+
+    public void setCompoundType(CompoundType compoundType) {
+        this.compoundType = compoundType;
     }
 
     public void setEntries (List<String> entries) {
         setEntries(entries.toArray(new CharSequence[entries.size()]));
     }
 
+    public void setEntries(CharSequence[] entries) {
+        this.entries = entries;
+    }
+
+    public void setLabelOrder(LabelOrder labelOrder) {
+        this.labelOrder = labelOrder;
+    }
+
+    public void setNumCols(int numCols) {
+        if (numCols > 0) {
+            this.numCols = numCols;
+        }
+        else {
+            throw new RuntimeException("Cannot set a number of cols that isn't greater than zero");
+        }
+    }
+
     public void setOnButtonSelectedListener(OnButtonSelectedListener onButtonSelectedListener) {
         this.onButtonSelectedListener = onButtonSelectedListener;
     }
 
-    public void setEntries(CharSequence[] entries) {
-        removeAllViews();
-        initializeButtonsContainer();
-        buttons.clear();
 
-        LinearLayout container = null;
+
+
+
+
+    // *********************************************************
+    // PRIVATE METHODS
+    // *********************************************************
+
+    private void addEntriesInOneColumn(CharSequence[] entries, LinearLayout containerLayout) {
+        for (CharSequence entry : entries) {
+            FullWidthCompoundButton button = buildEntry(entry.toString());
+            containerLayout.addView(button);
+            buttons.add(button);
+        }
+    }
+
+    private void addEntriesInGrid(CharSequence[] entries, LinearLayout containerLayout, int numCols) {
+        LinearLayout colContainer = null;
 
         for (int i=0; i<entries.length; i++) {
 
             if (i % numCols == 0) {
-                container = new LinearLayout(context);
-                container.setLayoutParams(new LinearLayoutCompat.LayoutParams(
+                colContainer = new LinearLayout(context);
+                colContainer.setLayoutParams(new LinearLayoutCompat.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                container.setOrientation(LinearLayout.HORIZONTAL);
-                containerLayout.addView(container);
+                colContainer.setOrientation(LinearLayout.HORIZONTAL);
+                containerLayout.addView(colContainer);
             }
 
             String entry = entries[i].toString();
             FullWidthCompoundButton button = buildEntry(entry);
-            container.addView(button);
+            colContainer.addView(button);
 
             buttons.add(button);
         }
@@ -127,11 +228,11 @@ public class CompoundButtonGroup extends ScrollView implements FullWidthCompound
             FullWidthCompoundButton hiddenBtn = buildEntry("hidden");
             hiddenBtn.setVisibility(INVISIBLE);
             hiddenBtn.setClickable(false);
-            container.addView(hiddenBtn);
+            colContainer.addView(hiddenBtn);
         }
     }
 
-    public FullWidthCompoundButton buildEntry(String entry) {
+    private FullWidthCompoundButton buildEntry(String entry) {
         FullWidthCompoundButton fullWidthButton = new FullWidthCompoundButton(context);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -145,40 +246,35 @@ public class CompoundButtonGroup extends ScrollView implements FullWidthCompound
         return fullWidthButton;
     }
 
+    private CompoundType getCompoundType (int compoundTypeInt) {
+        switch (compoundTypeInt) {
+            case 0: return CompoundType.CHECK_BOX;
+            case 1: return CompoundType.RADIO;
+            default: throw new RuntimeException("Unrecognized view type");
+        }
+    }
+
+    private LabelOrder getLabelOrder (int labelOrder) {
+        switch (labelOrder) {
+            case 0: return LabelOrder.BEFORE;
+            case 1: return LabelOrder.AFTER;
+            default: throw new RuntimeException("Unrecognized label order");
+        }
+    }
+
 
     @Override
     public void onButtonClicked(View v) {
-        if (compoundType == FullWidthCompoundButton.CompoundType.RADIO) {
+        if (compoundType == CompoundType.RADIO) {
             for (FullWidthCompoundButton button : buttons) {
                 button.setChecked(false);
             }
         }
 
         if (onButtonSelectedListener != null) {
-            boolean isChecked   = !((FullWidthCompoundButton) v).isChecked();
-            int position        = buttons.indexOf(v);
+            boolean isChecked = !((FullWidthCompoundButton) v).isChecked();
+            int position = buttons.indexOf(v);
             onButtonSelectedListener.onButtonSelected(position, isChecked);
         }
-    }
-
-    public void setCheckedPositions(List<Integer> checkedPositions) {
-        for (int i=0; i<buttons.size(); i++) {
-            buttons.get(i).setChecked(checkedPositions.contains(i));
-        }
-    }
-
-    public void setCheckedPosition(final int position) {
-        setCheckedPositions(new ArrayList<Integer>(){{add(position);}});
-    }
-
-    public List<Integer> getCheckedPositions() {
-        ArrayList<Integer> checked = new ArrayList<>();
-        for (int i=0; i<buttons.size(); i++) {
-            FullWidthCompoundButton button = buttons.get(i);
-            if (button.isChecked()) {
-                checked.add(i);
-            }
-        }
-        return checked;
     }
 }

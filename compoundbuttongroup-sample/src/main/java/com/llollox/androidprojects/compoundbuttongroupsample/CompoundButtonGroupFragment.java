@@ -87,13 +87,6 @@ public class CompoundButtonGroupFragment extends Fragment {
 
         relativeLayout.addView(compoundButtonGroup, 0);
 
-
-//        ArrayList<Integer> checkedPositions = new ArrayList<Integer>(){{add(2); add(4);}};
-//        compoundButtonGroup.setCheckedPositions(checkedPositions);
-
-        CharSequence[] entries = {"Mars", "Earth", "Mercury"};
-        compoundButtonGroup.setEntries(entries);
-
         return relativeLayout;
     }
 }

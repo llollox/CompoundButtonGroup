@@ -18,24 +18,16 @@ import android.widget.TextView;
  * Created by rigatol on 26/04/2017.
  */
 
-public class FullWidthCompoundButton extends LinearLayout {
+class FullWidthCompoundButton extends LinearLayout {
 
-    public interface Listener {
+    interface Listener {
         void onButtonClicked(View v);
-    }
-
-    public enum LabelOrder {
-        BEFORE, AFTER
-    }
-
-    public enum CompoundType {
-        CHECK_BOX, RADIO
     }
 
     private TextView textView;
     private CompoundButton button;
-    private LabelOrder labelOrder   = LabelOrder.BEFORE;
-    private CompoundType viewType   = CompoundType.CHECK_BOX;
+    private CompoundButtonGroup.LabelOrder labelOrder   = CompoundButtonGroup.LabelOrder.BEFORE;
+    private CompoundButtonGroup.CompoundType viewType   = CompoundButtonGroup.CompoundType.CHECK_BOX;
     private Context context;
     private Listener listener;
 
@@ -63,12 +55,12 @@ public class FullWidthCompoundButton extends LinearLayout {
         addOrderedViews(labelOrder);
     }
 
-    public void setLabelOrder (LabelOrder labelOrder) {
+    public void setLabelOrder (CompoundButtonGroup.LabelOrder labelOrder) {
         this.labelOrder = labelOrder;
         refresh();
     }
 
-    public void setCompoundType (CompoundType viewType) {
+    public void setCompoundType (CompoundButtonGroup.CompoundType viewType) {
         this.viewType = viewType;
         refresh();
     }
@@ -115,7 +107,7 @@ public class FullWidthCompoundButton extends LinearLayout {
         addOrderedViews(labelOrder);
     }
 
-    private void addOrderedViews(LabelOrder labelOrder) {
+    private void addOrderedViews(CompoundButtonGroup.LabelOrder labelOrder) {
         switch (labelOrder) {
             case BEFORE:
                 LinearLayout.LayoutParams params = new LayoutParams(

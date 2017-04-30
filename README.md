@@ -81,20 +81,36 @@ dependencies {
     app:labelOrder="after"/>
 ```
 
-## Getters and Setters
+## Getters
 
-* `void setEntries(List<String> entries)` Set the entries for the compound button group.
-
-```java
-List<String> entries = new ArrayList<String>(){{add("Mars"); add("Mercury"); add("Earth");}};
-compoundButtonGroup.setEntries(entries);
-```
 
 * `List<Integer> getCheckedPositions()` Returns the current checked positions
 
 ```java
 List<Integer> positions = compoundButtonGroup.getCheckedPositions();
 ```
+
+* `CompoundType getCompoundType()` Get the type of the compound buttons.
+
+```java
+compoundButtonGroup.getCompoundType();
+```
+
+* `LabelOrder getLabelOrder()` Get the label order of the compound buttons.
+This determines if the label is before or after the compound button.
+
+```java
+compoundButtonGroup.getLabelOrder();
+```
+
+* `int getNumCols()` Get the current number of cols.
+
+```java
+compoundButtonGroup.getNumCols();
+```
+
+
+## Setters
 
 * `void setCheckedPosition(int position)` Checks the button at the position passed as argument. Typically to be used with `radio` buttons.
 
@@ -111,6 +127,41 @@ compoundButtonGroup.setCheckedPositions(positions);
 ```
 
 
+* `void setCompoundType(CompoundType compoundType)` Set the type of the compound buttons. Allowed values are: `CompoundType.CHECK_BOX`, `CompoundType.RADIO`.
+In order to see the changes on UI please call the `reDraw()` method.
+
+```java
+compoundButtonGroup.setCompoundType(CompoundButtonGroup.CompoundType.RADIO);
+```
+
+
+* `void setEntries(List<String> entries)` Set the entries for the compound button group.
+In order to see the changes on UI please call the `reDraw()` method.
+
+```java
+List<String> entries = new ArrayList<String>(){{add("Mars"); add("Mercury"); add("Earth");}};
+compoundButtonGroup.setEntries(entries);
+```
+
+* `void setLabelOrder(LabelOrder LabelOrder)` Set the label order of each compound button.
+This determines if the label is before or after the compound button.
+Allowed values are: `LabelOrder.BEFORE`, `LabelOrder.AFTER`.
+In order to see the changes on UI please call the `reDraw()` method.
+
+```java
+compoundButtonGroup.setLabelOrder(CompoundButtonGroup.LabelOrder.AFTER);
+```
+
+* `void setNumCols(int numCols)` Set the number of cols. If it is greater than 1
+the compound buttons are shown as a grid.
+NB. It cannot be smaller than 1!
+In order to see the changes on UI please call the `reDraw()` method.
+
+```java
+int numCols = 2;
+compoundButtonGroup.setNumCols(numCols);
+```
+
 ## Listeners
 
 ##### OnButtonSelectedListener
@@ -124,9 +175,9 @@ compoundButtonGroup.setOnButtonSelectedListener(new CompoundButtonGroup.OnButton
 });
 ```
 
-## Customization
+## Attributes
 
-It is possible to customize the buttons applying the following options:
+It is possible to customize the compound button group applying the following options:
 
 
 | Option Name      				| Format                 | Description                              |
