@@ -183,7 +183,7 @@ compoundButtonGroup.setNumCols(numCols);
 ```java
 compoundButtonGroup.setOnButtonSelectedListener(new CompoundButtonGroup.OnButtonSelectedListener() {
     @Override
-    public void onButtonSelected(int position, boolean isChecked) {
+    public void onButtonSelected(int position, String value, boolean isChecked) {
         // Your code
     }
 });
