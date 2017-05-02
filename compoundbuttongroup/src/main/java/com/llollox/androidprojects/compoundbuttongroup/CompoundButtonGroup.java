@@ -9,7 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by rigatol on 26/04/2017.
@@ -22,7 +25,7 @@ public class CompoundButtonGroup extends ScrollView {
     // *********************************************************
 
     public interface OnButtonSelectedListener {
-        void onButtonSelected(int position, boolean isChecked);
+        void onButtonSelected(int position, String value, boolean isChecked);
     }
 
 
@@ -52,7 +55,7 @@ public class CompoundButtonGroup extends ScrollView {
     private int numCols                                             = 1;
     private FullWidthCompoundButtonListener fullWidthCompoundButtonListener = new FullWidthCompoundButtonListener();
 
-    private CharSequence[] entries;
+    private LinkedHashMap<String, String> entries;
     private OnButtonSelectedListener onButtonSelectedListener;
     private Context context;
     private LinearLayout containerLayout;
@@ -89,7 +92,7 @@ public class CompoundButtonGroup extends ScrollView {
 
             numCols = a.getInteger(R.styleable.CompoundButtonGroup_numCols, 1);
 
-            this.entries = a.getTextArray(R.styleable.CompoundButtonGroup_entries);
+            setEntries(a.getTextArray(R.styleable.CompoundButtonGroup_entries));
             if (entries != null) {
                 reDraw();
             }
@@ -161,10 +164,28 @@ public class CompoundButtonGroup extends ScrollView {
     }
 
     public void setEntries (List<String> entries) {
-        setEntries(entries.toArray(new CharSequence[entries.size()]));
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        for (String entry : entries) {
+            map.put(entry, entry);
+        }
+        this.entries = map;
     }
 
     public void setEntries(CharSequence[] entries) {
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        for (CharSequence entry : entries) {
+            map.put(entry.toString(), entry.toString());
+        }
+        this.entries = map;
+    }
+
+    public void setEntries(HashMap<String, String> entries) {
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        map.putAll(entries);
+        this.entries = map;
+    }
+
+    public void setEntries(LinkedHashMap<String, String> entries) {
         this.entries = entries;
     }
 
@@ -194,18 +215,20 @@ public class CompoundButtonGroup extends ScrollView {
     // PRIVATE METHODS
     // *********************************************************
 
-    private void addEntriesInOneColumn(CharSequence[] entries, LinearLayout containerLayout) {
-        for (CharSequence entry : entries) {
-            FullWidthCompoundButton button = buildEntry(entry.toString());
+    private void addEntriesInOneColumn(HashMap<String, String> entries, LinearLayout containerLayout) {
+        for (Map.Entry<String, String> entry : entries.entrySet()) {
+            FullWidthCompoundButton button = buildEntry(entry.getKey(), entry.getValue());
             containerLayout.addView(button);
             buttons.add(button);
         }
     }
 
-    private void addEntriesInGrid(CharSequence[] entries, LinearLayout containerLayout, int numCols) {
+    private void addEntriesInGrid(HashMap<String, String> entries, LinearLayout containerLayout, int numCols) {
         LinearLayout colContainer = null;
 
-        for (int i=0; i<entries.length; i++) {
+        List<String> keyList = new ArrayList<>(entries.keySet());
+
+        for (int i=0; i< entries.size(); i++) {
 
             if (i % numCols == 0) {
                 colContainer = new LinearLayout(context);
@@ -215,30 +238,31 @@ public class CompoundButtonGroup extends ScrollView {
                 containerLayout.addView(colContainer);
             }
 
-            String entry = entries[i].toString();
-            FullWidthCompoundButton button = buildEntry(entry);
+            String key = keyList.get(i);
+            FullWidthCompoundButton button = buildEntry(key, entries.get(key));
             colContainer.addView(button);
 
             buttons.add(button);
         }
 
         // Ugly fix to force all cells to be equally distributed on parent's width
-        for (int i=0; i<entries.length % numCols; i++) {
-            FullWidthCompoundButton hiddenBtn = buildEntry("hidden");
+        for (int i=0; i<keyList.size() % numCols; i++) {
+            FullWidthCompoundButton hiddenBtn = buildEntry("hidden", "hidden");
             hiddenBtn.setVisibility(INVISIBLE);
             hiddenBtn.setClickable(false);
             colContainer.addView(hiddenBtn);
         }
     }
 
-    private FullWidthCompoundButton buildEntry(String entry) {
+    private FullWidthCompoundButton buildEntry(String value, String label) {
         FullWidthCompoundButton fullWidthButton = new FullWidthCompoundButton(context);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
         params.weight = (float) numCols;
         fullWidthButton.setLayoutParams(params);
-        fullWidthButton.setText(entry);
+        fullWidthButton.setText(label);
+        fullWidthButton.setValue(value);
         fullWidthButton.setCompoundType(compoundType);
         fullWidthButton.setLabelOrder(labelOrder);
         fullWidthButton.setListener(fullWidthCompoundButtonListener);
@@ -280,9 +304,11 @@ public class CompoundButtonGroup extends ScrollView {
             }
 
             if (onButtonSelectedListener != null) {
-                boolean isChecked = !((FullWidthCompoundButton) v).isChecked();
+                FullWidthCompoundButton compoundButton = (FullWidthCompoundButton) v;
+                boolean isChecked = !compoundButton.isChecked();
                 int position = buttons.indexOf(v);
-                onButtonSelectedListener.onButtonSelected(position, isChecked);
+                String value = compoundButton.getValue();
+                onButtonSelectedListener.onButtonSelected(position, value, isChecked);
             }
         }
     }

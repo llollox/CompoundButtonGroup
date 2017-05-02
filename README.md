@@ -145,6 +145,18 @@ List<String> entries = new ArrayList<String>(){{add("Mars"); add("Mercury"); add
 compoundButtonGroup.setEntries(entries);
 ```
 
+* `void setEntries(HashMap<String, String> entries)` Set the entries for the compound button group.
+The key / value pair represent the value / label of the entry respectively.
+In order to see the changes on UI please call the `reDraw()` method.
+
+```java
+LinkedHashMap<String, String> map = new LinkedHashMap<>();
+map.put("house", getString(R.string.house));
+map.put("orange", getString(R.string.orange));
+compoundButtonGroup.setEntries(map);
+compoundButtonGroup.reDraw();
+```
+
 * `void setLabelOrder(LabelOrder LabelOrder)` Set the label order of each compound button.
 This determines if the label is before or after the compound button.
 Allowed values are: `LabelOrder.BEFORE`, `LabelOrder.AFTER`.

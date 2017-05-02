@@ -63,10 +63,9 @@ public class CompoundButtonGroupFragment extends Fragment {
 
         compoundButtonGroup.setOnButtonSelectedListener(new CompoundButtonGroup.OnButtonSelectedListener() {
             @Override
-            public void onButtonSelected(int position, boolean isChecked) {
-                String planet   = planets[position];
+            public void onButtonSelected(int position, String value, boolean isChecked) {
                 String checked  = getString(isChecked ? R.string.checked : R.string.unchecked);
-                Toast.makeText(getActivity(), checked + ": " + planet, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), checked + ": " + value, Toast.LENGTH_SHORT).show();
             }
         });
 

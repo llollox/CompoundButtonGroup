@@ -19,16 +19,37 @@ import android.widget.TextView;
 
 class FullWidthCompoundButton extends LinearLayout {
 
+    // *********************************************************
+    // LISTENERS
+    // *********************************************************
+
+
     interface Listener {
         void onButtonClicked(View v);
     }
 
+
+
+
+
+    // *********************************************************
+    // INSTANCE VARIABLES
+    // *********************************************************
+
+    private String value;
     private TextView textView;
     private CompoundButton button;
     private CompoundButtonGroup.LabelOrder labelOrder   = CompoundButtonGroup.LabelOrder.BEFORE;
     private CompoundButtonGroup.CompoundType viewType   = CompoundButtonGroup.CompoundType.CHECK_BOX;
     private Context context;
     private Listener listener;
+
+
+
+
+    // *********************************************************
+    // CONSTRUCTOR
+    // *********************************************************
 
     public FullWidthCompoundButton(Context context) {
         super(context);
@@ -54,26 +75,90 @@ class FullWidthCompoundButton extends LinearLayout {
         addOrderedViews(labelOrder);
     }
 
-    public void setLabelOrder (CompoundButtonGroup.LabelOrder labelOrder) {
+
+
+
+
+
+    // *********************************************************
+    // GETTERS AND SETTERS
+    // *********************************************************
+
+    String getValue () {
+        return value;
+    }
+
+    boolean isChecked() {
+        return this.button.isChecked();
+    }
+
+    void setLabelOrder (CompoundButtonGroup.LabelOrder labelOrder) {
         this.labelOrder = labelOrder;
         refresh();
     }
 
-    public void setCompoundType (CompoundButtonGroup.CompoundType viewType) {
+    void setCompoundType (CompoundButtonGroup.CompoundType viewType) {
         this.viewType = viewType;
         refresh();
     }
 
-    public void setListener (Listener listener) {
+    void setValue (String value) {
+        this.value = value;
+    }
+
+    void setText(String text) {
+        textView.setText(text);
+    }
+
+    void setListener (Listener listener) {
         this.listener = listener;
     }
 
-    public void setChecked(boolean isChecked) {
+    void setChecked(boolean isChecked) {
         this.button.setChecked(isChecked);
     }
 
-    public boolean isChecked() {
-        return this.button.isChecked();
+
+
+
+
+    // *********************************************************
+    // PRIVATE METHODS
+    // *********************************************************
+
+
+    private void activateRippleEffect() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            // If we're running on Honeycomb or newer, then we can use the Theme's
+            // selectableItemBackground to ensure that the View has a pressed state
+            TypedValue outValue = new TypedValue();
+            getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
+            setBackgroundResource(outValue.resourceId);
+        }
+    }
+
+    private void addOrderedViews(CompoundButtonGroup.LabelOrder labelOrder) {
+        switch (labelOrder) {
+            case BEFORE:
+                LinearLayout.LayoutParams params = new LayoutParams(
+                        LayoutParams.MATCH_PARENT,
+                        LayoutParams.MATCH_PARENT);
+                params.weight = 1.0f;
+                textView.setLayoutParams(params);
+                textView.setGravity(Gravity.CENTER_VERTICAL);
+                addView(textView);
+                addView(button);
+                break;
+
+            case AFTER:
+                addView(button);
+                LinearLayout.LayoutParams paramss = new LayoutParams(
+                        LayoutParams.WRAP_CONTENT,
+                        LayoutParams.WRAP_CONTENT);
+                textView.setLayoutParams(paramss);
+                addView(textView);
+                break;
+        }
     }
 
     private void prepareButton() {
@@ -104,43 +189,5 @@ class FullWidthCompoundButton extends LinearLayout {
         removeAllViews();
         prepareButton();
         addOrderedViews(labelOrder);
-    }
-
-    private void addOrderedViews(CompoundButtonGroup.LabelOrder labelOrder) {
-        switch (labelOrder) {
-            case BEFORE:
-                LinearLayout.LayoutParams params = new LayoutParams(
-                        LayoutParams.MATCH_PARENT,
-                        LayoutParams.MATCH_PARENT);
-                params.weight = 1.0f;
-                textView.setLayoutParams(params);
-                textView.setGravity(Gravity.CENTER_VERTICAL);
-                addView(textView);
-                addView(button);
-                break;
-
-            case AFTER:
-                addView(button);
-                LinearLayout.LayoutParams paramss = new LayoutParams(
-                        LayoutParams.WRAP_CONTENT,
-                        LayoutParams.WRAP_CONTENT);
-                textView.setLayoutParams(paramss);
-                addView(textView);
-                break;
-        }
-    }
-
-    private void activateRippleEffect() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            // If we're running on Honeycomb or newer, then we can use the Theme's
-            // selectableItemBackground to ensure that the View has a pressed state
-            TypedValue outValue = new TypedValue();
-            getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
-            setBackgroundResource(outValue.resourceId);
-        }
-    }
-
-    public void setText(String text) {
-        textView.setText(text);
     }
 }
