@@ -196,7 +196,7 @@ It is possible to customize the compound button group applying the following opt
 
 | Option Name      				| Format                 | Description                              |
 | ---------------- 				| ---------------------- | -----------------------------            |
-| app:compoundType 	  | `check_box` or `radio` | The type of the compound button. By default is `check_box`.                 |
+w| app:compoundType 	  | `check_box` or `radio` | The type of the compound button. By default is `check_box`.                 |
 | app:entries 				| `array`  	        | String array of the entries of the compound button group.                 |
 | app:labelOrder      | `before` or `after`    | This determines if the label is before or after the compound button. By default is `before`.    |
 | app:numCols       | `int`               | Setting this parameter the compound buttons are shown as a grid and it indicates the number of cols of the grid.  |
