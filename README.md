@@ -1,4 +1,4 @@
-# Compound Button Group
+# Compound Button Group Android
 
 ![Alt text](https://img.shields.io/badge/license-MIT-green.svg?style=flat)
 [![API](https://img.shields.io/badge/API-10%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=10)
