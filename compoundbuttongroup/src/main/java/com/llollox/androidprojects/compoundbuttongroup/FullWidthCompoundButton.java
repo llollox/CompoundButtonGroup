@@ -142,8 +142,9 @@ class FullWidthCompoundButton extends LinearLayout {
             case BEFORE:
                 LinearLayout.LayoutParams params = new LayoutParams(
                         LayoutParams.MATCH_PARENT,
-                        LayoutParams.MATCH_PARENT);
+                        LayoutParams.WRAP_CONTENT);
                 params.weight = 1.0f;
+                params.gravity = Gravity.FILL;
                 textView.setLayoutParams(params);
                 textView.setGravity(Gravity.CENTER_VERTICAL);
                 addView(textView);
@@ -155,6 +156,7 @@ class FullWidthCompoundButton extends LinearLayout {
                 LinearLayout.LayoutParams paramss = new LayoutParams(
                         LayoutParams.WRAP_CONTENT,
                         LayoutParams.WRAP_CONTENT);
+                paramss.gravity = Gravity.FILL;
                 textView.setLayoutParams(paramss);
                 addView(textView);
                 break;
